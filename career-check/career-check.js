@@ -183,61 +183,27 @@ function priorityGaps(scores){
   if(!key)return Object.entries(scores).sort((a,b)=>a[1]-b[1]).slice(0,2).map(([k])=>k);
   const w=weights[key]; return Object.keys(scores).map(k=>[k,w[k]*(100-scores[k])]).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>k);
 }
-
-let radarChart = null;
 function renderRadar(scores){
-  const canvas=document.getElementById('careerRadar');
-  if(!canvas || typeof Chart==='undefined') return;
-  if(radarChart) radarChart.destroy();
-  const labels=['Technical','Business','Customer','Leadership','Visibility','Strategy','Career'];
-  const data=[scores.technical,scores.business,scores.customer,scores.leadership,scores.visibility,scores.strategy,scores.career];
-  radarChart=new Chart(canvas,{
-    type:'radar',
-    data:{
-      labels,
-      datasets:[{
-        label:'Ton profil',
-        data,
-        borderColor:'#b88a2a',
-        backgroundColor:'rgba(184,138,42,.16)',
-        pointBackgroundColor:'#111827',
-        pointBorderColor:'#ffffff',
-        pointHoverBackgroundColor:'#b88a2a',
-        pointHoverBorderColor:'#111827',
-        borderWidth:2,
-        pointRadius:3.5,
-        pointHoverRadius:5
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      animation:{duration:550},
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            title:(items)=>items[0]?.label||'',
-            label:(item)=>`${item.raw}/100`
-          }
-        }
-      },
-      scales:{
-        r:{
-          min:0,
-          max:100,
-          beginAtZero:true,
-          ticks:{display:false,stepSize:20},
-          grid:{color:'rgba(17,24,39,.12)'},
-          angleLines:{color:'rgba(17,24,39,.12)'},
-          pointLabels:{
-            color:'#111827',
-            font:{size:12,weight:'700'}
-          }
-        }
-      }
-    }
-  });
+  const host=document.getElementById('careerRadar');
+  if(!host) return;
+  const items=[
+    ['Technical',scores.technical],['Business',scores.business],['Customer',scores.customer],
+    ['Leadership',scores.leadership],['Visibility',scores.visibility],['Strategy',scores.strategy],['Career',scores.career]
+  ];
+  const W=620,H=430,cx=310,cy=210,R=145,n=items.length;
+  const pt=(r,i)=>{const a=(-Math.PI/2)+(2*Math.PI*i/n);return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+  const rings=[20,40,60,80,100].map(p=>{
+    const pts=items.map((_,i)=>pt(R*p/100,i).map(v=>v.toFixed(1)).join(',')).join(' ');
+    return `<polygon points="${pts}" fill="none" stroke="rgba(17,24,39,.12)" stroke-width="1"/>`;
+  }).join('');
+  const axes=items.map((_,i)=>{const [x,y]=pt(R,i);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(17,24,39,.12)" stroke-width="1"/>`}).join('');
+  const shape=items.map(([_,v],i)=>pt(R*v/100,i).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const points=items.map(([_,v],i)=>{const [x,y]=pt(R*v/100,i);return `<circle cx="${x}" cy="${y}" r="4" fill="#111827" stroke="#fff" stroke-width="2"/>`}).join('');
+  const labels=items.map(([label,v],i)=>{
+    const [x0,y0]=pt(R+34,i); let anchor='middle'; if(x0<cx-20) anchor='end'; if(x0>cx+20) anchor='start';
+    return `<text x="${x0}" y="${y0}" text-anchor="${anchor}" dominant-baseline="middle" font-size="12" font-weight="700" fill="#111827">${label}</text><text x="${x0}" y="${y0+15}" text-anchor="${anchor}" dominant-baseline="middle" font-size="11" font-weight="700" fill="#8a6a1f">${v}/100</text>`;
+  }).join('');
+  host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${rings}${axes}<polygon points="${shape}" fill="rgba(184,138,42,.16)" stroke="#b88a2a" stroke-width="3"/>${points}${labels}</svg>`;
 }
 
 function renderResult(){
@@ -258,4 +224,4 @@ document.getElementById('contextBackBtn').addEventListener('click',()=>{if(state
 document.getElementById('contextNextBtn').addEventListener('click',()=>{if(state.contextIndex<contextSteps.length-1){state.contextIndex++;renderContext();}else{showScreen('questionScreen');renderQuestion();}});
 document.getElementById('questionBackBtn').addEventListener('click',()=>{if(state.questionIndex>0){state.questionIndex--;renderQuestion();}else{showScreen('contextScreen');state.contextIndex=contextSteps.length-1;renderContext();}});
 document.getElementById('questionNextBtn').addEventListener('click',()=>{if(!state.answers[questions[state.questionIndex].id])return;if(state.questionIndex<questions.length-1){state.questionIndex++;renderQuestion();}else{renderResult();showScreen('resultScreen');}});
-document.getElementById('restartBtn').addEventListener('click',()=>{if(radarChart){radarChart.destroy();radarChart=null;}state.context={};state.answers={};state.contextIndex=0;state.questionIndex=0;delete state.result;showScreen('introScreen');});
+document.getElementById('restartBtn').addEventListener('click',()=>{state.context={};state.answers={};state.contextIndex=0;state.questionIndex=0;delete state.result;showScreen('introScreen');});
