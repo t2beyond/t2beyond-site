@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mon rapport T2BEYOND Career Check</title>
+  <meta name="description" content="Rapport personnalisé T2BEYOND Career Check.">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="report.css?v=2.0">
+</head>
+<body class="report-page-body">
+  <header class="site-header report-site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../"><span class="brand-mark">T2</span><span>T2BEYOND</span></a>
+      <a class="report-back" href="../">Career Check</a>
+    </div>
+  </header>
+
+  <main class="report-page-main">
+    <div class="report-shell">
+      <section id="loadingState" class="report-state is-active" aria-live="polite">
+        <div class="state-card">
+          <div class="loader" aria-hidden="true"></div>
+          <h1>Préparation de ton rapport…</h1>
+          <p>Nous récupérons de façon sécurisée les résultats de ton Career Check.</p>
+        </div>
+      </section>
+
+      <section id="errorState" class="report-state" aria-live="polite">
+        <div class="state-card state-error">
+          <p class="eyebrow">T2BEYOND CAREER CHECK</p>
+          <h1>Ce rapport n’est pas accessible</h1>
+          <p id="errorMessage">Le lien est incomplet, invalide ou n’est plus disponible.</p>
+          <a class="btn primary" href="../">Refaire le Career Check</a>
+        </div>
+      </section>
+
+      <section id="reportState" class="report-state">
+        <div class="report-toolbar">
+          <a class="btn secondary" href="../">← Retour au Career Check</a>
+          <button class="btn primary" id="printReportBtn" type="button">Imprimer / enregistrer en PDF</button>
+        </div>
+        <article id="reportContent" class="career-report"></article>
+      </section>
+    </div>
+  </main>
+
+  <script src="report.js?v=2.0"></script>
+</body>
+</html>
