@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>T2BEYOND Career Check — Diagnostic carrière pour profils techniques</title>
+  <meta name="description" content="28 questions pour identifier les compétences et leviers qui peuvent influencer ta prochaine étape de carrière.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="career-check.css">
+</head>
+<body class="cc-body">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../"><span class="brand-mark">T2</span><span>T2BEYOND</span></a>
+      <a class="cc-back-home" href="../">Retour au site</a>
+    </div>
+  </header>
+
+  <main class="cc-main">
+    <div class="cc-shell">
+      <section id="introScreen" class="cc-screen is-active">
+        <p class="eyebrow">T2BEYOND CAREER CHECK</p>
+        <h1 class="cc-title">Qu’est-ce qui peut aujourd’hui limiter ta prochaine étape de carrière ?</h1>
+        <p class="cc-lead">Un diagnostic conçu pour les ingénieurs, experts et profils techniques qui veulent développer leur impact au-delà de leur expertise.</p>
+        <div class="cc-meta"><span>28 questions</span><span>≈ 5 minutes</span><span>Gratuit</span></div>
+        <div class="cc-callout"><strong>Important :</strong> il n’y a pas de “bonne” réponse. Réponds selon ta situation professionnelle actuelle.</div>
+        <button class="btn primary cc-start" id="startBtn">Commencer</button>
+      </section>
+
+      <section id="contextScreen" class="cc-screen">
+        <div class="cc-progress-wrap"><div class="cc-progress-label"><span>Ton contexte</span><span id="contextStepLabel">1 / 5</span></div><div class="cc-progress"><div id="contextProgressBar"></div></div></div>
+        <div id="contextQuestion"></div>
+        <div class="cc-actions"><button class="btn secondary" id="contextBackBtn">Retour</button><button class="btn primary" id="contextNextBtn" disabled>Continuer</button></div>
+      </section>
+
+      <section id="questionScreen" class="cc-screen">
+        <div class="cc-progress-wrap"><div class="cc-progress-label"><span>Career Check</span><span id="questionStepLabel">1 / 28</span></div><div class="cc-progress"><div id="questionProgressBar"></div></div></div>
+        <div class="cc-question-card">
+          <p class="cc-question-number" id="questionNumber">Question 1 sur 28</p>
+          <h2 id="questionText"></h2>
+          <div class="cc-scale" id="answerScale"></div>
+        </div>
+        <div class="cc-actions"><button class="btn secondary" id="questionBackBtn">Retour</button><button class="btn primary" id="questionNextBtn" disabled>Continuer</button></div>
+      </section>
+
+      <section id="leadScreen" class="cc-screen">
+        <p class="eyebrow">TON CAREER CHECK EST PRÊT</p>
+        <h1 class="cc-title">Encore une étape pour découvrir ton profil</h1>
+        <p class="cc-lead">Renseigne ton prénom et ton email pour enregistrer ton Career Check et accéder immédiatement à ton résultat personnalisé.</p>
+
+        <div class="cc-lead-card">
+          <div class="cc-lead-benefits">
+            <span>✓ Tes 7 scores</span>
+            <span>✓ Ton profil T2BEYOND</span>
+            <span>✓ Tes forces et leviers prioritaires</span>
+            <span>✓ Ton rapport détaillé</span>
+          </div>
+
+          <form id="leadForm" novalidate>
+            <label class="cc-field">
+              <span>Prénom</span>
+              <input id="firstNameInput" name="first_name" type="text" autocomplete="given-name" maxlength="80" placeholder="Ton prénom" required>
+            </label>
+            <label class="cc-field">
+              <span>Email</span>
+              <input id="emailInput" name="email" type="email" autocomplete="email" maxlength="254" placeholder="ton@email.com" required>
+            </label>
+            <p class="cc-data-note">En continuant, tu demandes l’enregistrement de tes réponses et de ton email afin de produire ton Career Check. Aucun email marketing n’est envoyé à ce stade.</p>
+            <div id="leadStatus" class="cc-submit-status" aria-live="polite"></div>
+            <div class="cc-actions cc-lead-actions">
+              <button class="btn secondary" type="button" id="leadBackBtn">Retour</button>
+              <button class="btn primary" type="submit" id="submitCareerCheckBtn">Découvrir mon résultat</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="resultScreen" class="cc-screen">
+        <p class="eyebrow">TON RÉSULTAT</p>
+        <h1 class="cc-title">Ton profil T2BEYOND</h1>
+        <div class="cc-result-hero">
+          <div><p class="cc-result-kicker">Profil actuel</p><h2 id="profileName">—</h2><p id="profileSummary"></p></div>
+          <div class="cc-fit-box"><span>Career Fit</span><strong id="careerFitScore">—</strong><small id="careerFitLabel">selon ton objectif</small></div>
+        </div>
+
+        <section class="cc-panel cc-radar-panel">
+          <div class="cc-panel-head">
+            <div>
+              <h3>Ton profil en un coup d’œil</h3>
+              <p>Le radar montre l’équilibre entre tes 7 dimensions.</p>
+            </div>
+          </div>
+          <div id="careerRadar" class="cc-radar-wrap" aria-label="Radar des 7 dimensions du Career Check" role="img"></div>
+        </section>
+
+        <div class="cc-result-grid">
+          <section class="cc-panel">
+            <h3>Les 7 dimensions</h3>
+            <div id="dimensionScores" class="cc-dimension-list"></div>
+          </section>
+          <section class="cc-panel">
+            <h3>Ce qui ressort</h3>
+            <div class="cc-insight-block"><span>Forces</span><strong id="topStrengths">—</strong></div>
+            <div class="cc-insight-block"><span>Leviers prioritaires</span><strong id="topPriorities">—</strong></div>
+            <div class="cc-insight-block"><span>Frein que tu identifies</span><strong id="declaredBarrier">—</strong></div>
+          </section>
+        </div>
+
+        <div class="cc-beta-note"><strong>Prototype V4.</strong> Ton Career Check est maintenant enregistré de façon sécurisée après saisie du prénom et de l’email. L’envoi automatique du rapport par email sera connecté à l’étape suivante.</div>
+        <div class="cc-actions cc-result-actions"><button class="btn secondary" id="restartBtn">Refaire le test</button><button class="btn primary" id="openReportBtn">Voir mon rapport détaillé</button></div>
+      </section>
+
+      <section id="reportScreen" class="cc-screen">
+        <div class="cc-report-topbar">
+          <button class="btn secondary" id="backToResultBtn">← Retour au résultat</button>
+          <button class="btn secondary" id="printReportBtn">Imprimer / enregistrer en PDF</button>
+        </div>
+        <article id="autoReport" class="cc-report"></article>
+      </section>
+    </div>
+  </main>
+
+  <script src="career-check.js"></script>
+</body>
+</html>
